@@ -76,17 +76,22 @@ This is a high-level overview of the application's event and registration workfl
 
 Add screenshots of your application in the `screenshots` folder.
 
+
+
+### Dashboard
+![Dashboard](screenshots/dashboard.JPG)
+
 ### Events Page
 ![Events Page](screenshots/events.JPG)
 
-### Create Event
+### Create Event Page
 ![Create Event](screenshots/create-event.JPG)
 
 ### Attendees Page
 ![Attendees Page](screenshots/attendees.JPG)
 
-### Attendee Registration
-![Attendee Registration](screenshots/registration.JPG)
+### Registration Page
+![Registration Page](screenshots/registration.JPG)
 
 ## Getting Started
 

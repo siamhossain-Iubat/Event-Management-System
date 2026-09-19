@@ -75,19 +75,19 @@ This is a high-level overview of the application's event and registration workfl
 ## Screenshots
 
 ### Dashboard
-![Dashboard](EF_Project_By_129116/screenshots/dashboard.JPG)
+![Dashboard](./EF_Project_By_1291163/screenshots/dashboard.JPG)
 
 ### Events Page
-![Events Page](EF_Project_By_129116/screenshots/events.JPG)
+![Events Page](./EF_Project_By_1291163/screenshots/events.JPG)
 
 ### Create Event Page
-![Create Event](EF_Project_By_129116/screenshots/create-event.JPG)
+![Create Event](./EF_Project_By_1291163/screenshots/create-event.JPG)
 
 ### Attendees Page
-![Attendees Page](EF_Project_By_129116/screenshots/attendees.JPG)
+![Attendees Page](./EF_Project_By_1291163/screenshots/attendees.JPG)
 
 ### Registration Page
-![Registration Page](EF_Project_By_129116/screenshots/registration.JPG)
+![Registration Page](./EF_Project_By_1291163/screenshots/registration.JPG)
 ## Getting Started
 
 ### Prerequisites

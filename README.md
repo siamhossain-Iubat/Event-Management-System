@@ -72,27 +72,22 @@ This is a high-level overview of the application's event and registration workfl
 - Bootstrap
 - HTML, CSS, JavaScript
 
-## 📸 Screenshots
-
-Add screenshots of your application in the `screenshots` folder.
-
-
+## Screenshots
 
 ### Dashboard
-![Dashboard](screenshots/dashboard.JPG)
+![Dashboard](EF_Project_By_129116/screenshots/dashboard.JPG)
 
 ### Events Page
-![Events Page](screenshots/events.JPG)
+![Events Page](EF_Project_By_129116/screenshots/events.JPG)
 
 ### Create Event Page
-![Create Event](screenshots/create-event.JPG)
+![Create Event](EF_Project_By_129116/screenshots/create-event.JPG)
 
 ### Attendees Page
-![Attendees Page](screenshots/attendees.JPG)
+![Attendees Page](EF_Project_By_129116/screenshots/attendees.JPG)
 
 ### Registration Page
-![Registration Page](screenshots/registration.JPG)
-
+![Registration Page](EF_Project_By_129116/screenshots/registration.JPG)
 ## Getting Started
 
 ### Prerequisites

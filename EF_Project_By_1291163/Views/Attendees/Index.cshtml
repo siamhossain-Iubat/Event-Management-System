@@ -1,0 +1,719 @@
+﻿@model IEnumerable<EventManagementSystem.Models.Attendee>
+
+@{
+    ViewData["Title"] = "Registered Attendees";
+    var attendees = Model?.ToList() ?? new List<EventManagementSystem.Models.Attendee>();
+}
+
+<style>
+    .attendee-page {
+        min-height: 80vh;
+        padding: 42px 15px 60px;
+        background: linear-gradient(135deg, #f5f7ff 0%, #fdf2f8 100%);
+    }
+
+    .attendee-wrapper {
+        max-width: 1400px;
+        margin: 0 auto;
+    }
+
+    .attendee-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        margin-bottom: 28px;
+    }
+
+    .attendee-eyebrow {
+        display: inline-block;
+        padding: 7px 14px;
+        border-radius: 30px;
+        background: #ede9fe;
+        color: #6d28d9;
+        font-size: 12px;
+        font-weight: 800;
+        margin-bottom: 12px;
+        letter-spacing: .5px;
+    }
+
+    .attendee-header h1 {
+        font-size: clamp(28px, 4vw, 38px);
+        font-weight: 800;
+        color: #172033;
+        margin: 0 0 8px;
+        letter-spacing: -1px;
+    }
+
+    .attendee-header p {
+        color: #6b7280;
+        margin: 0;
+        font-size: 15px;
+    }
+
+    .btn-add-attendee {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 13px 20px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #7c3aed, #9333ea);
+        color: #fff;
+        font-weight: 700;
+        text-decoration: none;
+        box-shadow: 0 8px 20px rgba(124, 58, 237, .2);
+        transition: all .2s ease;
+    }
+
+        .btn-add-attendee:hover {
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(124, 58, 237, .3);
+        }
+
+    .attendee-stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin-bottom: 25px;
+    }
+
+    .attendee-stat {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 22px;
+        background: #fff;
+        border: 1px solid #eef0f6;
+        border-radius: 18px;
+        box-shadow: 0 8px 25px rgba(31, 41, 55, .04);
+    }
+
+    .attendee-stat-icon {
+        width: 52px;
+        height: 52px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        font-size: 23px;
+    }
+
+    .stat-purple {
+        background: #ede9fe;
+        color: #7c3aed;
+    }
+
+    .stat-green {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+    .stat-orange {
+        background: #ffedd5;
+        color: #c2410c;
+    }
+
+    .attendee-stat span {
+        display: block;
+        color: #9ca3af;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+
+    .attendee-stat h3 {
+        color: #172033;
+        font-size: 27px;
+        font-weight: 800;
+        margin: 0;
+    }
+
+    .attendee-panel {
+        background: #fff;
+        border: 1px solid #eef0f6;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 12px 35px rgba(31, 41, 55, .06);
+    }
+
+    .attendee-panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+        padding: 24px 25px;
+        border-bottom: 1px solid #f1f2f7;
+    }
+
+        .attendee-panel-header h2 {
+            color: #172033;
+            font-size: 20px;
+            font-weight: 800;
+            margin: 0 0 5px;
+        }
+
+        .attendee-panel-header p {
+            color: #9ca3af;
+            font-size: 13px;
+            margin: 0;
+        }
+
+    .attendee-search {
+        position: relative;
+        width: 100%;
+        max-width: 340px;
+    }
+
+        .attendee-search i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+        }
+
+        .attendee-search input {
+            width: 100%;
+            height: 46px;
+            padding: 10px 15px 10px 42px;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            outline: none;
+            background: #fafbff;
+            transition: all .2s ease;
+        }
+
+            .attendee-search input:focus {
+                background: #fff;
+                border-color: #8b5cf6;
+                box-shadow: 0 0 0 4px rgba(139, 92, 246, .1);
+            }
+
+    .attendee-table-wrap {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .attendee-table {
+        width: 100%;
+        min-width: 1050px;
+        margin: 0;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+        .attendee-table thead th {
+            padding: 16px 20px;
+            background: #f8f9fd;
+            color: #6b7280;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            white-space: nowrap;
+            border-bottom: 1px solid #eef0f6;
+        }
+
+        .attendee-table tbody td {
+            padding: 19px 20px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f1f2f7;
+            color: #4b5563;
+            font-size: 13px;
+        }
+
+        .attendee-table tbody tr {
+            transition: background .2s ease;
+        }
+
+            .attendee-table tbody tr:hover {
+                background: #faf9ff;
+            }
+
+            .attendee-table tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+    .attendee-profile {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        min-width: 190px;
+    }
+
+    .attendee-avatar {
+        width: 48px;
+        height: 48px;
+        flex-shrink: 0;
+        border-radius: 15px;
+        object-fit: cover;
+        background: #ede9fe;
+        border: 2px solid #fff;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, .08);
+    }
+
+    .attendee-avatar-fallback {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #7c3aed;
+        font-size: 20px;
+    }
+
+    .attendee-name {
+        color: #172033;
+        font-size: 14px;
+        font-weight: 800;
+        margin-bottom: 4px;
+    }
+
+    .attendee-id {
+        color: #9ca3af;
+        font-size: 11px;
+    }
+
+    .attendee-contact {
+        min-width: 180px;
+        line-height: 1.8;
+    }
+
+        .attendee-contact .email {
+            color: #374151;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
+
+        .attendee-contact .phone {
+            color: #9ca3af;
+            font-size: 12px;
+        }
+
+    .event-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 170px;
+    }
+
+    .event-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        width: fit-content;
+        max-width: 220px;
+        padding: 7px 10px;
+        border-radius: 9px;
+        background: #f3e8ff;
+        color: #7e22ce;
+        font-size: 11px;
+        font-weight: 700;
+        overflow-wrap: anywhere;
+    }
+
+    .event-quantity {
+        color: #9ca3af;
+        font-size: 11px;
+        padding-left: 4px;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 7px 11px;
+        border-radius: 30px;
+        font-size: 11px;
+        font-weight: 800;
+        white-space: nowrap;
+    }
+
+    .status-adult {
+        color: #15803d;
+        background: #dcfce7;
+    }
+
+    .status-minor {
+        color: #a16207;
+        background: #fef3c7;
+    }
+
+    .attendee-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .action-btn {
+        width: 36px;
+        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+        text-decoration: none;
+        border: 1px solid transparent;
+        font-size: 14px;
+        transition: all .2s ease;
+    }
+
+    .action-edit {
+        color: #2563eb;
+        background: #eff6ff;
+        border-color: #dbeafe;
+    }
+
+        .action-edit:hover {
+            color: #fff;
+            background: #2563eb;
+        }
+
+    .action-delete {
+        color: #dc2626;
+        background: #fef2f2;
+        border-color: #fee2e2;
+    }
+
+        .action-delete:hover {
+            color: #fff;
+            background: #dc2626;
+        }
+
+    .attendee-empty {
+        padding: 65px 20px;
+        text-align: center;
+    }
+
+    .attendee-empty-icon {
+        width: 75px;
+        height: 75px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        border-radius: 24px;
+        background: #f3e8ff;
+        color: #9333ea;
+        font-size: 32px;
+    }
+
+    .attendee-empty h3 {
+        color: #172033;
+        font-weight: 800;
+        font-size: 21px;
+        margin-bottom: 10px;
+    }
+
+    .attendee-empty p {
+        color: #9ca3af;
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .attendee-no-results {
+        display: none;
+        padding: 35px 20px;
+        color: #9ca3af;
+        text-align: center;
+    }
+
+    .attendee-panel-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        padding: 18px 25px;
+        background: #fcfcff;
+        border-top: 1px solid #f1f2f7;
+        color: #9ca3af;
+        font-size: 12px;
+    }
+
+    @@media (max-width: 768px) {
+        .attendee-page {
+            padding: 28px 12px 45px;
+        }
+
+        .attendee-stats {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .attendee-stat {
+            padding: 18px;
+        }
+
+        .attendee-panel-header {
+            padding: 20px;
+        }
+
+        .attendee-search {
+            max-width: 100%;
+        }
+    }
+</style>
+
+<div class="attendee-page">
+    <div class="attendee-wrapper">
+
+        <div class="attendee-header">
+            <div>
+                <span class="attendee-eyebrow">
+                    <i class="bi bi-people-fill me-1"></i> ATTENDEE MANAGEMENT
+                </span>
+                <h1>Registered Attendees</h1>
+                <p>Manage registrations and view attendee information in one place.</p>
+            </div>
+
+            <a asp-action="Create" class="btn-add-attendee">
+                <i class="bi bi-person-plus-fill"></i>
+                Add New Registration
+            </a>
+        </div>
+
+        <div class="attendee-stats">
+            <div class="attendee-stat">
+                <div class="attendee-stat-icon stat-purple">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <div>
+                    <span>Total Attendees</span>
+                    <h3>@attendees.Count</h3>
+                </div>
+            </div>
+
+            <div class="attendee-stat">
+                <div class="attendee-stat-icon stat-green">
+                    <i class="bi bi-person-check-fill"></i>
+                </div>
+                <div>
+                    <span>Adult Attendees</span>
+                    <h3>@attendees.Count(a => a.IsAdult)</h3>
+                </div>
+            </div>
+
+            <div class="attendee-stat">
+                <div class="attendee-stat-icon stat-orange">
+                    <i class="bi bi-person-fill-exclamation"></i>
+                </div>
+                <div>
+                    <span>Minor Attendees</span>
+                    <h3>@attendees.Count(a => !a.IsAdult)</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="attendee-panel">
+            <div class="attendee-panel-header">
+                <div>
+                    <h2>Attendee Directory</h2>
+                    <p>All registered attendees and their event information</p>
+                </div>
+
+                <div class="attendee-search">
+                    <i class="bi bi-search"></i>
+                    <input type="text" id="attendeeSearch"
+                           placeholder="Search name, email, phone..." />
+                </div>
+            </div>
+
+            @if (attendees.Any())
+            {
+                <div class="attendee-table-wrap">
+                    <table class="attendee-table">
+                        <thead>
+                            <tr>
+                                <th>Attendee</th>
+                                <th>Contact Information</th>
+                                <th>Registered Events</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="attendeeTableBody">
+                            @foreach (var item in attendees)
+                            {
+                                <tr class="attendee-row">
+                                    <td>
+                                        <div class="attendee-profile">
+                                            @if (!string.IsNullOrWhiteSpace(item.Image))
+                                            {
+                                                <img src="@Url.Content("~/images/" + item.Image)"
+                                                     class="attendee-avatar"
+                                                     alt="@item.FullName"
+                                                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                                                <div class="attendee-avatar attendee-avatar-fallback" style="display:none;">
+                                                    <i class="bi bi-person-fill"></i>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <div class="attendee-avatar attendee-avatar-fallback">
+                                                    <i class="bi bi-person-fill"></i>
+                                                </div>
+                                            }
+
+                                            <div>
+                                                <div class="attendee-name">@item.FullName</div>
+                                                <div class="attendee-id">ID: #@item.AttendeeId</div>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="attendee-contact">
+                                            <div class="email">
+                                                <i class="bi bi-envelope me-1"></i>
+                                                @item.Email
+                                            </div>
+                                            <div class="phone">
+                                                <i class="bi bi-telephone me-1"></i>
+                                                @item.PhoneNumber
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="event-list">
+                                            @if (item.Registrations != null && item.Registrations.Any())
+                                            {
+                                                @foreach (var reg in item.Registrations)
+                                                {
+                                                    <div>
+                                                        <span class="event-chip">
+                                                            <i class="bi bi-calendar-event"></i>
+                                                            @(reg.Event?.EventName ?? "Event")
+                                                        </span>
+                                                        <span class="event-quantity">
+                                                            Qty: @reg.TicketCount
+                                                        </span>
+                                                    </div>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <span class="text-muted">No registrations</span>
+                                            }
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        @if (item.IsAdult)
+                                        {
+                                            <span class="status-badge status-adult">
+                                                <i class="bi bi-check-circle-fill"></i>
+                                                Adult
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="status-badge status-minor">
+                                                <i class="bi bi-exclamation-circle-fill"></i>
+                                                Minor
+                                            </span>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        <div class="attendee-actions">
+                                            <a asp-action="Edit"
+                                               asp-route-id="@item.AttendeeId"
+                                               class="action-btn action-edit"
+                                               title="Edit Attendee">
+                                                <i class="bi bi-pencil-square"></i>
+                                            </a>
+
+                                            <a asp-action="Delete"
+                                               asp-route-id="@item.AttendeeId"
+                                               class="action-btn action-delete"
+                                               title="Delete Attendee"
+                                               onclick="return confirm('Are you sure you want to delete this record?')">
+                                                <i class="bi bi-trash3"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="attendee-no-results" id="attendeeNoResults">
+                    <i class="bi bi-search fs-3 d-block mb-2"></i>
+                    No attendees match your search.
+                </div>
+
+                <div class="attendee-panel-footer">
+                    <span>
+                        <i class="bi bi-info-circle me-1"></i>
+                        Showing <strong id="visibleAttendeeCount">@attendees.Count</strong>
+                        of @attendees.Count attendees
+                    </span>
+                    <span>
+                        <i class="bi bi-shield-check me-1"></i>
+                        Attendee Directory
+                    </span>
+                </div>
+            }
+            else
+            {
+                <div class="attendee-empty">
+                    <div class="attendee-empty-icon">
+                        <i class="bi bi-people"></i>
+                    </div>
+                    <h3>No Attendees Yet</h3>
+                    <p>There are no registrations yet. Add your first attendee to get started.</p>
+                    <a asp-action="Create" class="btn-add-attendee">
+                        <i class="bi bi-person-plus-fill"></i>
+                        Add First Registration
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const searchInput = document.getElementById("attendeeSearch");
+            const rows = document.querySelectorAll(".attendee-row");
+            const noResults = document.getElementById("attendeeNoResults");
+            const visibleCount = document.getElementById("visibleAttendeeCount");
+
+            if (!searchInput) return;
+
+            searchInput.addEventListener("input", function () {
+                const searchValue = this.value.toLowerCase().trim();
+                let visible = 0;
+
+                rows.forEach(function (row) {
+                    const matches = row.textContent.toLowerCase().includes(searchValue);
+                    row.style.display = matches ? "" : "none";
+
+                    if (matches) {
+                        visible++;
+                    }
+                });
+
+                if (noResults) {
+                    noResults.style.display = visible === 0 ? "block" : "none";
+                }
+
+                if (visibleCount) {
+                    visibleCount.textContent = visible;
+                }
+            });
+        });
+    </script>
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

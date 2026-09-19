@@ -1,0 +1,23 @@
+﻿@model IEnumerable<EventManagementSystem.Models.Registration>
+
+<div class="card mt-3 shadow-sm">
+    <div class="card-header bg-info text-white">
+        <h5 class="mb-0">Event Summary Details</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-sm">
+            <tr>
+                <th>Total Registrations:</th>
+                <td>@Model.Count()</td>
+            </tr>
+            <tr>
+                <th>Total Tickets Sold:</th>
+                <td>@Model.Sum(r => r.TicketCount)</td>
+            </tr>
+            <tr>
+                <th>Total Revenue:</th>
+                <td>@Model.Sum(r => r.TotalPaid).ToString("C")</td>
+            </tr>
+        </table>
+    </div>
+</div>

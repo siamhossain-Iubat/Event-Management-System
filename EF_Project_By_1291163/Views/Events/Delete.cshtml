@@ -1,0 +1,555 @@
+﻿@model EventManagementSystem.Models.Event
+
+@{
+    ViewData["Title"] = "Delete Event";
+}
+
+<style>
+    .delete-event-page {
+        min-height: 80vh;
+        padding: 45px 15px 60px;
+        background: linear-gradient(135deg, #fff7f7 0%, #f5f7ff 100%);
+    }
+
+    .delete-event-wrapper {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .delete-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 18px;
+        margin-bottom: 30px;
+    }
+
+    .delete-eyebrow {
+        display: inline-block;
+        padding: 7px 14px;
+        border-radius: 30px;
+        background: #fee2e2;
+        color: #b91c1c;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 14px;
+    }
+
+    .delete-header h1 {
+        font-size: clamp(30px, 4vw, 42px);
+        font-weight: 800;
+        color: #172033;
+        margin-bottom: 10px;
+        letter-spacing: -1px;
+    }
+
+    .delete-header p {
+        color: #6b7280;
+        font-size: 15px;
+        margin: 0;
+    }
+
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 12px 18px;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        background: #fff;
+        color: #4b5563;
+        text-decoration: none;
+        font-weight: 700;
+        transition: .2s ease;
+    }
+
+        .back-btn:hover {
+            background: #f9fafb;
+            color: #6d28d9;
+            border-color: #c4b5fd;
+            transform: translateY(-2px);
+        }
+
+    .delete-card {
+        background: #fff;
+        border: 1px solid #e9edf4;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(31, 41, 55, .09);
+    }
+
+    .delete-banner {
+        position: relative;
+        padding: 38px;
+        color: #fff;
+        background: linear-gradient(135deg, #dc2626, #e11d48 55%, #be123c);
+        overflow: hidden;
+    }
+
+        .delete-banner::before {
+            content: "";
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            border: 1px solid rgba(255, 255, 255, .18);
+            border-radius: 50%;
+            right: -80px;
+            top: -130px;
+        }
+
+        .delete-banner::after {
+            content: "";
+            position: absolute;
+            width: 170px;
+            height: 170px;
+            border: 1px solid rgba(255, 255, 255, .13);
+            border-radius: 50%;
+            right: 100px;
+            bottom: -120px;
+        }
+
+    .banner-content {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        gap: 22px;
+    }
+
+    .banner-icon {
+        width: 75px;
+        height: 75px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, .17);
+        font-size: 36px;
+    }
+
+    .banner-label {
+        display: inline-block;
+        margin-bottom: 8px;
+        color: rgba(255, 255, 255, .8);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .banner-content h2 {
+        margin: 0;
+        font-size: clamp(24px, 3vw, 34px);
+        font-weight: 800;
+        overflow-wrap: anywhere;
+    }
+
+    .delete-content {
+        padding: 35px 38px;
+    }
+
+    .warning-box {
+        display: flex;
+        align-items: flex-start;
+        gap: 15px;
+        padding: 20px;
+        margin-bottom: 30px;
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+        border-radius: 15px;
+    }
+
+    .warning-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+        border-radius: 12px;
+        background: #ffedd5;
+        color: #ea580c;
+        font-size: 23px;
+    }
+
+    .warning-box h5 {
+        color: #9a3412;
+        font-size: 16px;
+        font-weight: 800;
+        margin: 2px 0 7px;
+    }
+
+    .warning-box p {
+        color: #9a5a36;
+        font-size: 14px;
+        line-height: 1.7;
+        margin: 0;
+    }
+
+    .section-heading {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .section-heading-icon {
+        width: 43px;
+        height: 43px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 13px;
+        background: #eef2ff;
+        color: #6366f1;
+        font-size: 21px;
+    }
+
+    .section-heading h3 {
+        margin: 0 0 4px;
+        color: #202b40;
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+    .section-heading p {
+        margin: 0;
+        color: #9ca3af;
+        font-size: 13px;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .info-item {
+        padding: 22px;
+        border: 1px solid #e9edf4;
+        border-radius: 16px;
+        background: #fbfcff;
+    }
+
+    .info-label {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: #7b8497;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+        .info-label i {
+            color: #8b5cf6;
+            font-size: 17px;
+        }
+
+    .info-value {
+        color: #202b40;
+        font-size: 19px;
+        font-weight: 800;
+        overflow-wrap: anywhere;
+    }
+
+    .price-item {
+        background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+        border-color: #bbf7d0;
+    }
+
+        .price-item .info-label i {
+            color: #16a34a;
+        }
+
+        .price-item .info-value {
+            color: #15803d;
+            font-size: 25px;
+        }
+
+    .delete-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 24px 38px;
+        background: #fbfcfe;
+        border-top: 1px solid #edf0f5;
+    }
+
+    .footer-note {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: #8992a3;
+        font-size: 13px;
+    }
+
+        .footer-note i {
+            color: #dc2626;
+            font-size: 18px;
+        }
+
+    .footer-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .cancel-btn,
+    .delete-btn {
+        min-height: 47px;
+        padding: 11px 22px;
+        border-radius: 11px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: .2s ease;
+    }
+
+    .cancel-btn {
+        background: #eef1f6;
+        color: #596579;
+        border: 1px solid #e5e7eb;
+    }
+
+        .cancel-btn:hover {
+            background: #e2e7ef;
+            color: #263247;
+        }
+
+    .delete-btn {
+        background: #dc2626;
+        color: #fff;
+        border: none;
+        box-shadow: 0 5px 12px rgba(220, 38, 38, .16);
+    }
+
+        .delete-btn:hover {
+            background: #b91c1c;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(220, 38, 38, .22);
+        }
+
+    @@media (max-width: 768px) {
+        .delete-event-page {
+            padding: 30px 12px 45px;
+        }
+
+        .delete-banner {
+            padding: 28px 24px;
+        }
+
+        .delete-content {
+            padding: 28px 24px;
+        }
+
+        .delete-footer {
+            padding: 22px 24px;
+        }
+
+        .banner-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 29px;
+        }
+    }
+
+    @@media (max-width: 520px) {
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .banner-content {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .warning-box {
+            flex-direction: column;
+        }
+
+        .delete-footer {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .footer-actions {
+            flex-direction: column;
+        }
+
+            .footer-actions > * {
+                width: 100%;
+            }
+
+        .back-btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="delete-event-page">
+    <div class="delete-event-wrapper">
+
+        <div class="delete-header">
+            <div>
+                <span class="delete-eyebrow">
+                    <i class="bi bi-exclamation-triangle me-1"></i>
+                    EVENT MANAGEMENT
+                </span>
+
+                <h1>Delete Event</h1>
+                <p>Review the event information before confirming deletion.</p>
+            </div>
+
+            <a asp-action="Index" class="back-btn">
+                <i class="bi bi-arrow-left"></i>
+                Back to Events
+            </a>
+        </div>
+
+        <div class="delete-card">
+
+            <div class="delete-banner">
+                <div class="banner-content">
+                    <div class="banner-icon">
+                        <i class="bi bi-trash3"></i>
+                    </div>
+
+                    <div>
+                        <span class="banner-label">Delete Confirmation</span>
+                        <h2>@Model.EventName</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="delete-content">
+
+                <div class="warning-box">
+                    <div class="warning-icon">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                    </div>
+
+                    <div>
+                        <h5>Are you sure you want to delete this event?</h5>
+                        <p>
+                            This action may permanently remove the event
+                            information. Please review the details below
+                            before continuing.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="section-heading">
+                    <div class="section-heading-icon">
+                        <i class="bi bi-calendar2-event"></i>
+                    </div>
+
+                    <div>
+                        <h3>Event Information</h3>
+                        <p>Confirm that this is the event you want to delete.</p>
+                    </div>
+                </div>
+
+                <div class="info-grid">
+
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="bi bi-type"></i>
+                            Event Name
+                        </div>
+
+                        <div class="info-value">
+                            @Model.EventName
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="bi bi-calendar3"></i>
+                            Event Date
+                        </div>
+
+                        <div class="info-value">
+                            @Model.EventDate.ToString("dd MMM yyyy")
+                        </div>
+
+                        <div class="form-hint">
+                            @Model.EventDate.ToString("hh:mm tt")
+                        </div>
+                    </div>
+
+                    <div class="info-item price-item">
+                        <div class="info-label">
+                            <i class="bi bi-currency-dollar"></i>
+                            Ticket Price
+                        </div>
+
+                        <div class="info-value">
+                            ৳@Model.TicketPrice.ToString("N2")
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="bi bi-ticket-perforated"></i>
+                            Ticket Status
+                        </div>
+
+                        <div class="info-value">
+                            @(Model.TicketPrice == 0 ? "Free Event" : "Paid Event")
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="delete-footer">
+                <div class="footer-note">
+                    <i class="bi bi-shield-exclamation"></i>
+                    Please confirm before deleting this event.
+                </div>
+
+                <div class="footer-actions">
+                    <a asp-action="Index" class="cancel-btn">
+                        <i class="bi bi-x-circle"></i>
+                        Cancel
+                    </a>
+
+                    <form asp-action="Delete" method="post" id="deleteEventForm">
+                        <input type="hidden" asp-for="EventId" />
+
+                        <button type="submit" class="delete-btn">
+                            <i class="bi bi-trash3"></i>
+                            Delete Event
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('deleteEventForm').addEventListener('submit', function (e) {
+            const confirmed = confirm(
+                'Are you sure you want to permanently delete this event?'
+            );
+
+            if (!confirmed) {
+                e.preventDefault();
+            }
+        });
+    </script>
+}

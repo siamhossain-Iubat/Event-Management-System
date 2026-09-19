@@ -1,0 +1,416 @@
+﻿@model EventManagementSystem.Models.Event
+
+@{
+    ViewData["Title"] = "Edit Event";
+}
+
+<style>
+    .edit-page {
+        min-height: 80vh;
+        padding: 45px 15px 60px;
+        background: linear-gradient(135deg, #f5f7ff 0%, #fdf2f8 100%);
+    }
+
+    .edit-wrapper {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .edit-heading {
+        margin-bottom: 30px;
+    }
+
+        .edit-heading .eyebrow {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 30px;
+            background: #ede9fe;
+            color: #6d28d9;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .edit-heading h1 {
+            font-size: clamp(30px, 4vw, 42px);
+            font-weight: 800;
+            color: #172033;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .edit-heading p {
+            color: #6b7280;
+            font-size: 16px;
+            margin: 0;
+        }
+
+    .edit-card {
+        display: grid;
+        grid-template-columns: .85fr 1.15fr;
+        background: #fff;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(31, 41, 55, .09);
+        border: 1px solid rgba(226, 232, 240, .8);
+    }
+
+    .edit-sidebar {
+        position: relative;
+        padding: 42px 34px;
+        color: #fff;
+        background: linear-gradient(145deg, #4f46e5, #7c3aed 55%, #a855f7);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+    }
+
+        .edit-sidebar::before {
+            content: "";
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: 50%;
+            right: -110px;
+            top: -90px;
+        }
+
+        .edit-sidebar::after {
+            content: "";
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 50%;
+            left: -90px;
+            bottom: 70px;
+        }
+
+    .sidebar-content,
+    .sidebar-note {
+        position: relative;
+        z-index: 1;
+    }
+
+    .sidebar-icon {
+        width: 64px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        background: rgba(255, 255, 255, .17);
+        font-size: 30px;
+        margin-bottom: 30px;
+    }
+
+    .edit-sidebar h2 {
+        font-size: 27px;
+        font-weight: 800;
+        line-height: 1.35;
+        margin-bottom: 16px;
+    }
+
+    .edit-sidebar p {
+        color: rgba(255, 255, 255, .82);
+        line-height: 1.8;
+        font-size: 14px;
+    }
+
+    .sidebar-note {
+        margin-top: 40px;
+        padding: 18px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, .12);
+        border: 1px solid rgba(255, 255, 255, .18);
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    .edit-form-area {
+        padding: 42px 38px;
+    }
+
+    .form-top {
+        margin-bottom: 28px;
+    }
+
+        .form-top h3 {
+            color: #172033;
+            font-size: 23px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .form-top p {
+            color: #9ca3af;
+            font-size: 14px;
+            margin: 0;
+        }
+
+    .event-form .form-label {
+        font-size: 14px;
+        font-weight: 700;
+        color: #374151;
+        margin-bottom: 9px;
+    }
+
+    .event-form .form-control {
+        min-height: 52px;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 12px 15px;
+        color: #1f2937;
+        background-color: #fafbff;
+        transition: all .2s ease;
+    }
+
+        .event-form .form-control:focus {
+            background-color: #fff;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, .12);
+        }
+
+    .field-icon {
+        color: #8b5cf6;
+        margin-right: 7px;
+    }
+
+    .form-hint {
+        color: #9ca3af;
+        font-size: 12px;
+        margin-top: 7px;
+    }
+
+    .validation-summary-errors {
+        padding: 14px 16px;
+        border-radius: 12px;
+        background: #fef2f2;
+        color: #b91c1c;
+        margin-bottom: 22px;
+        font-size: 14px;
+    }
+
+        .validation-summary-errors ul {
+            margin-bottom: 0;
+            padding-left: 20px;
+        }
+
+    .field-validation-error {
+        display: block;
+        margin-top: 7px;
+        font-size: 12px;
+        color: #dc2626;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 30px;
+    }
+
+    .btn-save {
+        flex: 1;
+        min-height: 52px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        color: #fff;
+        font-weight: 700;
+        transition: all .2s ease;
+    }
+
+        .btn-save:hover {
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(79, 70, 229, .25);
+        }
+
+    .btn-back {
+        min-height: 52px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 0 18px;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        background: #fff;
+        color: #4b5563;
+        text-decoration: none;
+        font-weight: 700;
+        transition: all .2s ease;
+    }
+
+        .btn-back:hover {
+            background: #f9fafb;
+            color: #6d28d9;
+            border-color: #c4b5fd;
+        }
+
+    @@media (max-width: 768px) {
+        .edit-page {
+            padding: 30px 12px 45px;
+        }
+
+        .edit-card {
+            grid-template-columns: 1fr;
+        }
+
+        .edit-sidebar {
+            padding: 30px;
+        }
+
+            .edit-sidebar h2 {
+                font-size: 24px;
+            }
+
+        .sidebar-note {
+            margin-top: 25px;
+        }
+
+        .edit-form-area {
+            padding: 30px 24px;
+        }
+    }
+
+    @@media (max-width: 420px) {
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .btn-back,
+        .btn-save {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="edit-page">
+    <div class="edit-wrapper">
+
+        <div class="edit-heading">
+            <span class="eyebrow">
+                <i class="bi bi-calendar2-event me-1"></i>
+                EVENT MANAGEMENT
+            </span>
+            <h1>Edit Event</h1>
+            <p>Update your event details and keep your information accurate.</p>
+        </div>
+
+        <div class="edit-card">
+
+            <div class="edit-sidebar">
+                <div class="sidebar-content">
+                    <div class="sidebar-icon">
+                        <i class="bi bi-pencil-square"></i>
+                    </div>
+
+                    <h2>Keep your event up to date.</h2>
+
+                    <p>
+                        Review and update the event name, scheduled date,
+                        and ticket price. Your changes will be saved once
+                        you submit the form.
+                    </p>
+                </div>
+
+                <div class="sidebar-note">
+                    <i class="bi bi-lightbulb-fill me-2"></i>
+                    <strong>Quick tip</strong>
+                    <br />
+                    Double-check the event date and ticket price before
+                    saving your changes.
+                </div>
+            </div>
+
+            <div class="edit-form-area">
+                <div class="form-top">
+                    <h3>Event Information</h3>
+                    <p>Make the necessary changes in the fields below.</p>
+                </div>
+
+                <form asp-action="Edit" method="post" class="event-form">
+                    <div asp-validation-summary="ModelOnly"></div>
+
+                    <input type="hidden" asp-for="EventId" />
+
+                    <div class="mb-4">
+                        <label asp-for="EventName" class="form-label">
+                            <i class="bi bi-type field-icon"></i>
+                            Event Name
+                        </label>
+
+                        <input asp-for="EventName"
+                               class="form-control"
+                               placeholder="Enter event name" />
+
+                        <span asp-validation-for="EventName"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="EventDate" class="form-label">
+                            <i class="bi bi-calendar3 field-icon"></i>
+                            Event Date
+                        </label>
+
+                        <input asp-for="EventDate"
+                               type="datetime-local"
+                               class="form-control" />
+
+                        <span asp-validation-for="EventDate"></span>
+
+                        <div class="form-hint">
+                            Select the updated date and time of your event.
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="TicketPrice" class="form-label">
+                            <i class="bi bi-currency-dollar field-icon"></i>
+                            Ticket Price
+                        </label>
+
+                        <input asp-for="TicketPrice"
+                               type="number"
+                               min="0"
+                               step="0.01"
+                               class="form-control"
+                               placeholder="Enter ticket price" />
+
+                        <span asp-validation-for="TicketPrice"></span>
+
+                        <div class="form-hint">
+                            Enter the ticket price. Use 0 for a free event.
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-save">
+                            <i class="bi bi-check-circle"></i>
+                            Save Changes
+                        </button>
+
+                        <a asp-action="Index" class="btn-back">
+                            <i class="bi bi-arrow-left"></i>
+                            Back to List
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

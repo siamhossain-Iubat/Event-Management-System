@@ -1,0 +1,408 @@
+﻿@model EventManagementSystem.Models.Event
+
+@{
+    ViewData["Title"] = "Create Event";
+}
+
+<style>
+    .create-page {
+        min-height: 80vh;
+        padding: 45px 15px 60px;
+        background: linear-gradient(135deg, #f5f7ff 0%, #fdf2f8 100%);
+    }
+
+    .create-wrapper {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .create-heading {
+        margin-bottom: 30px;
+    }
+
+        .create-heading .eyebrow {
+            display: inline-block;
+            padding: 7px 14px;
+            border-radius: 30px;
+            background: #ede9fe;
+            color: #6d28d9;
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .create-heading h1 {
+            font-size: clamp(30px, 4vw, 42px);
+            font-weight: 800;
+            color: #172033;
+            margin-bottom: 10px;
+            letter-spacing: -1px;
+        }
+
+        .create-heading p {
+            color: #6b7280;
+            font-size: 16px;
+            margin: 0;
+        }
+
+    .create-card {
+        display: grid;
+        grid-template-columns: 0.85fr 1.15fr;
+        background: #fff;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(31, 41, 55, 0.09);
+        border: 1px solid rgba(226, 232, 240, 0.8);
+    }
+
+    .create-sidebar {
+        position: relative;
+        padding: 42px 34px;
+        color: #fff;
+        background: linear-gradient(145deg, #6d28d9, #9333ea 55%, #c026d3);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        overflow: hidden;
+    }
+
+        .create-sidebar::before {
+            content: "";
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 50%;
+            right: -110px;
+            top: -90px;
+        }
+
+        .create-sidebar::after {
+            content: "";
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 50%;
+            left: -90px;
+            bottom: 70px;
+        }
+
+    .sidebar-content {
+        position: relative;
+        z-index: 1;
+    }
+
+    .sidebar-icon {
+        width: 64px;
+        height: 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px;
+        background: rgba(255,255,255,0.17);
+        font-size: 30px;
+        margin-bottom: 30px;
+    }
+
+    .create-sidebar h2 {
+        font-size: 27px;
+        font-weight: 800;
+        line-height: 1.35;
+        margin-bottom: 16px;
+    }
+
+    .create-sidebar p {
+        color: rgba(255,255,255,0.82);
+        line-height: 1.8;
+        font-size: 14px;
+    }
+
+    .sidebar-note {
+        position: relative;
+        z-index: 1;
+        margin-top: 40px;
+        padding: 18px;
+        border-radius: 16px;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.18);
+        font-size: 13px;
+        line-height: 1.7;
+    }
+
+    .create-form-area {
+        padding: 42px 38px;
+    }
+
+    .form-top {
+        margin-bottom: 28px;
+    }
+
+        .form-top h3 {
+            color: #172033;
+            font-size: 23px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .form-top p {
+            color: #9ca3af;
+            font-size: 14px;
+            margin: 0;
+        }
+
+    .event-form .form-label {
+        font-size: 14px;
+        font-weight: 700;
+        color: #374151;
+        margin-bottom: 9px;
+    }
+
+    .event-form .form-control {
+        min-height: 52px;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        padding: 12px 15px;
+        color: #1f2937;
+        background-color: #fafbff;
+        transition: all 0.2s ease;
+    }
+
+        .event-form .form-control:focus {
+            background-color: #fff;
+            border-color: #8b5cf6;
+            box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.12);
+        }
+
+    .field-icon {
+        color: #8b5cf6;
+        margin-right: 7px;
+    }
+
+    .form-hint {
+        color: #9ca3af;
+        font-size: 12px;
+        margin-top: 7px;
+    }
+
+    .validation-summary-errors {
+        padding: 14px 16px;
+        border-radius: 12px;
+        background: #fef2f2;
+        color: #b91c1c;
+        margin-bottom: 22px;
+        font-size: 14px;
+    }
+
+        .validation-summary-errors ul {
+            margin-bottom: 0;
+            padding-left: 20px;
+        }
+
+    .field-validation-error {
+        display: block;
+        margin-top: 7px;
+        font-size: 12px;
+        color: #dc2626;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 30px;
+    }
+
+    .btn-create {
+        flex: 1;
+        min-height: 52px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #7c3aed, #9333ea);
+        color: #fff;
+        font-weight: 700;
+        transition: all 0.2s ease;
+    }
+
+        .btn-create:hover {
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.25);
+        }
+
+    .btn-back {
+        min-height: 52px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 0 18px;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        background: #fff;
+        color: #4b5563;
+        text-decoration: none;
+        font-weight: 700;
+        transition: all 0.2s ease;
+    }
+
+        .btn-back:hover {
+            background: #f9fafb;
+            color: #6d28d9;
+            border-color: #c4b5fd;
+        }
+
+    @@media (max-width: 768px) {
+        .create-page {
+            padding: 30px 12px 45px;
+        }
+
+        .create-card {
+            grid-template-columns: 1fr;
+        }
+
+        .create-sidebar {
+            padding: 30px;
+        }
+
+            .create-sidebar h2 {
+                font-size: 24px;
+            }
+
+        .sidebar-note {
+            margin-top: 25px;
+        }
+
+        .create-form-area {
+            padding: 30px 24px;
+        }
+    }
+
+    @@media (max-width: 420px) {
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .btn-back,
+        .btn-create {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="create-page">
+    <div class="create-wrapper">
+
+        <div class="create-heading">
+            <span class="eyebrow">
+                <i class="bi bi-stars me-1"></i> EVENT MANAGEMENT
+            </span>
+            <h1>Create a New Event</h1>
+            <p>Bring people together by creating your next amazing event.</p>
+        </div>
+
+        <div class="create-card">
+
+            <div class="create-sidebar">
+                <div class="sidebar-content">
+                    <div class="sidebar-icon">
+                        <i class="bi bi-calendar2-event"></i>
+                    </div>
+
+                    <h2>Make your next event unforgettable.</h2>
+
+                    <p>
+                        Add your event details, choose the date, and set the ticket price.
+                        Your event will be ready to share with attendees.
+                    </p>
+                </div>
+
+                <div class="sidebar-note">
+                    <i class="bi bi-lightbulb-fill me-2"></i>
+                    <strong>Quick tip</strong>
+                    <br />
+                    Use a clear event name and choose the correct date and ticket price
+                    so attendees can easily understand your event.
+                </div>
+            </div>
+
+            <div class="create-form-area">
+                <div class="form-top">
+                    <h3>Event Information</h3>
+                    <p>Fill in the details below to create your event.</p>
+                </div>
+
+                <form asp-action="Create" method="post" class="event-form">
+                    <div asp-validation-summary="ModelOnly"></div>
+
+                    <div class="mb-4">
+                        <label asp-for="EventName" class="form-label">
+                            <i class="bi bi-type field-icon"></i> Event Name
+                        </label>
+
+                        <input asp-for="EventName"
+                               class="form-control"
+                               placeholder="e.g. Annual Tech Conference" />
+
+                        <span asp-validation-for="EventName"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="EventDate" class="form-label">
+                            <i class="bi bi-calendar3 field-icon"></i> Event Date
+                        </label>
+
+                        <input asp-for="EventDate"
+                               type="datetime-local"
+                               class="form-control" />
+
+                        <span asp-validation-for="EventDate"></span>
+                        <div class="form-hint">
+                            Select the date and time of your event.
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="TicketPrice" class="form-label">
+                            <i class="bi bi-currency-dollar field-icon"></i> Ticket Price
+                        </label>
+
+                        <input asp-for="TicketPrice"
+                               type="number"
+                               min="0"
+                               step="0.01"
+                               class="form-control"
+                               placeholder="Enter ticket price" />
+
+                        <span asp-validation-for="TicketPrice"></span>
+                        <div class="form-hint">
+                            Enter the ticket price. Use 0 for a free event.
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn-create">
+                            <i class="bi bi-plus-circle"></i>
+                            Create Event
+                        </button>
+
+                        <a asp-action="Index" class="btn-back">
+                            <i class="bi bi-arrow-left"></i>
+                            Back to List
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

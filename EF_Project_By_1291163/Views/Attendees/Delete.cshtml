@@ -1,0 +1,542 @@
+﻿@model EventManagementSystem.Models.Attendee
+
+@{
+    ViewData["Title"] = "Delete Attendee";
+}
+
+<style>
+    .delete-page {
+        background: #f5f7fb;
+        min-height: 100vh;
+        padding: 30px 0 50px;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        flex-wrap: wrap;
+        margin-bottom: 25px;
+    }
+
+        .page-header h2 {
+            color: #172033;
+            font-weight: 750;
+            margin-bottom: 6px;
+        }
+
+        .page-header p {
+            color: #7b8497;
+            margin: 0;
+        }
+
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 17px;
+        background: #fff;
+        border: 1px solid #e1e6ef;
+        border-radius: 10px;
+        color: #374151;
+        text-decoration: none;
+        font-weight: 600;
+        transition: .2s;
+    }
+
+        .back-btn:hover {
+            background: #f0f3f9;
+            color: #172033;
+        }
+
+    .delete-card {
+        background: #fff;
+        border: 1px solid #e9edf4;
+        border-radius: 18px;
+        box-shadow: 0 8px 30px rgba(25, 42, 70, .045);
+        overflow: hidden;
+        margin-bottom: 24px;
+    }
+
+    .card-heading {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 22px 26px;
+        border-bottom: 1px solid #edf0f5;
+    }
+
+    .heading-icon {
+        width: 43px;
+        height: 43px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: #fff1f2;
+        color: #e11d48;
+        font-size: 21px;
+        flex-shrink: 0;
+    }
+
+    .card-heading h5 {
+        margin: 0 0 4px;
+        font-weight: 700;
+        color: #202b40;
+    }
+
+    .card-heading p {
+        margin: 0;
+        color: #8791a3;
+        font-size: 13px;
+    }
+
+    .card-content {
+        padding: 26px;
+    }
+
+    .warning-box {
+        display: flex;
+        gap: 13px;
+        align-items: flex-start;
+        padding: 17px 19px;
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+        border-radius: 12px;
+        margin-bottom: 25px;
+    }
+
+        .warning-box i {
+            color: #ea580c;
+            font-size: 22px;
+            margin-top: 1px;
+        }
+
+        .warning-box h6 {
+            color: #9a3412;
+            font-weight: 750;
+            margin-bottom: 5px;
+        }
+
+        .warning-box p {
+            color: #9a5a36;
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+    .attendee-profile {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        padding: 24px;
+        border: 1px solid #e9edf4;
+        background: #fbfcff;
+        border-radius: 15px;
+        margin-bottom: 25px;
+    }
+
+    .attendee-image {
+        width: 115px;
+        height: 115px;
+        object-fit: cover;
+        border-radius: 16px;
+        border: 3px solid #fff;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, .09);
+        flex-shrink: 0;
+    }
+
+    .image-placeholder {
+        width: 115px;
+        height: 115px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eef2ff;
+        color: #6366f1;
+        font-size: 42px;
+        flex-shrink: 0;
+    }
+
+    .attendee-name {
+        color: #202b40;
+        font-size: 23px;
+        font-weight: 800;
+        margin-bottom: 8px;
+    }
+
+    .attendee-email {
+        color: #748096;
+        font-size: 14px;
+        margin-bottom: 8px;
+        overflow-wrap: anywhere;
+    }
+
+    .attendee-phone {
+        color: #748096;
+        font-size: 14px;
+        margin-bottom: 12px;
+    }
+
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 11px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 750;
+    }
+
+    .status-adult {
+        background: #dcfce7;
+        color: #15803d;
+    }
+
+    .status-minor {
+        background: #fef3c7;
+        color: #a16207;
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #202b40;
+        font-size: 17px;
+        font-weight: 750;
+        margin-bottom: 16px;
+    }
+
+        .section-title i {
+            color: #6366f1;
+            font-size: 20px;
+        }
+
+    .registration-table {
+        margin-bottom: 0;
+        vertical-align: middle;
+    }
+
+        .registration-table thead th {
+            background: #f7f8fc;
+            color: #697386;
+            font-size: 12px;
+            font-weight: 750;
+            text-transform: uppercase;
+            letter-spacing: .35px;
+            padding: 15px 14px;
+            border-bottom: 1px solid #e8ecf3;
+            white-space: nowrap;
+        }
+
+        .registration-table tbody td {
+            padding: 16px 14px;
+            border-color: #edf0f5;
+            color: #39445a;
+            font-size: 14px;
+        }
+
+    .event-name {
+        font-weight: 650;
+        color: #263247;
+    }
+
+    .ticket-badge {
+        display: inline-block;
+        background: #eef2ff;
+        color: #4f46e5;
+        border-radius: 8px;
+        padding: 6px 10px;
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .amount {
+        font-weight: 750;
+        color: #263247;
+        white-space: nowrap;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 30px 15px;
+        color: #8992a3;
+    }
+
+        .empty-state i {
+            font-size: 30px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        padding: 22px 26px;
+        background: #fbfcfe;
+        border-top: 1px solid #edf0f5;
+    }
+
+    .cancel-btn,
+    .delete-btn {
+        min-height: 45px;
+        padding: 11px 22px;
+        border-radius: 10px;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border: none;
+        transition: .2s;
+    }
+
+    .cancel-btn {
+        color: #596579;
+        background: #eef1f6;
+    }
+
+        .cancel-btn:hover {
+            background: #e2e7ef;
+            color: #263247;
+        }
+
+    .delete-btn {
+        color: #fff;
+        background: #dc2626;
+        box-shadow: 0 5px 12px rgba(220, 38, 38, .16);
+    }
+
+        .delete-btn:hover {
+            background: #b91c1c;
+            color: #fff;
+        }
+
+    @@media (max-width: 767px) {
+        .delete-page {
+            padding: 20px 0 35px;
+        }
+
+        .card-content {
+            padding: 18px;
+        }
+
+        .card-heading {
+            padding: 18px;
+        }
+
+        .attendee-profile {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 18px;
+        }
+
+        .form-actions {
+            padding: 18px;
+            flex-direction: column-reverse;
+        }
+
+            .form-actions > * {
+                width: 100%;
+            }
+
+        .registration-table {
+            min-width: 650px;
+        }
+    }
+</style>
+
+<div class="delete-page">
+    <div class="container-fluid px-3 px-lg-4">
+
+        <div class="page-header">
+            <div>
+                <h2>Delete Attendee</h2>
+                <p>Review the attendee information before deleting.</p>
+            </div>
+
+            <a asp-action="Index" class="back-btn">
+                <i class="bi bi-arrow-left"></i>
+                Back to Attendees
+            </a>
+        </div>
+
+        <div class="delete-card">
+            <div class="card-heading">
+                <div class="heading-icon">
+                    <i class="bi bi-trash3"></i>
+                </div>
+                <div>
+                    <h5>Confirm Attendee Deletion</h5>
+                    <p>Review the details and confirm your action.</p>
+                </div>
+            </div>
+
+            <div class="card-content">
+
+                <div class="warning-box">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <div>
+                        <h6>Are you sure you want to delete this attendee?</h6>
+                        <p>
+                            This action may permanently remove the attendee's
+                            information and associated registrations. Please
+                            review the details below before continuing.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="attendee-profile">
+                    @if (!string.IsNullOrEmpty(Model.Image))
+                    {
+                        <img src="~/images/@Model.Image"
+                             class="attendee-image"
+                             alt="Attendee photo"
+                             onerror="this.style.display='none'; document.getElementById('imagePlaceholder').style.display='flex';" />
+
+                        <div class="image-placeholder"
+                             id="imagePlaceholder"
+                             style="display:none;">
+                            <i class="bi bi-person"></i>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="image-placeholder">
+                            <i class="bi bi-person"></i>
+                        </div>
+                    }
+
+                    <div>
+                        <div class="attendee-name">@Model.FullName</div>
+
+                        <div class="attendee-email">
+                            <i class="bi bi-envelope me-2"></i>
+                            @(string.IsNullOrWhiteSpace(Model.Email) ? "No email provided" : Model.Email)
+                        </div>
+
+                        <div class="attendee-phone">
+                            <i class="bi bi-telephone me-2"></i>
+                            @(string.IsNullOrWhiteSpace(Model.PhoneNumber) ? "No phone number provided" : Model.PhoneNumber)
+                        </div>
+
+                        @if (Model.IsAdult)
+                        {
+                            <span class="status-badge status-adult">
+                                <i class="bi bi-check-circle"></i>
+                                Adult
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="status-badge status-minor">
+                                <i class="bi bi-person"></i>
+                                Minor
+                            </span>
+                        }
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <i class="bi bi-calendar2-check"></i>
+                    Registered Events
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table registration-table">
+                        <thead>
+                            <tr>
+                                <th>Event</th>
+                                <th>Ticket Count</th>
+                                <th>Ticket Price</th>
+                                <th>Total Paid</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @if (Model.Registrations != null && Model.Registrations.Any())
+                            {
+                                foreach (var registration in Model.Registrations)
+                                {
+                                    <tr>
+                                        <td>
+                                            <span class="event-name">
+                                                @(registration.Event?.EventName ?? "Event information unavailable")
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            <span class="ticket-badge">
+                                                @registration.TicketCount
+                                            </span>
+                                        </td>
+
+                                        <td class="amount">
+                                            ৳@((registration.Event?.TicketPrice ?? 0).ToString("N2"))
+                                        </td>
+
+                                        <td class="amount">
+                                            ৳@registration.TotalPaid.ToString("N2")
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="empty-state">
+                                            <i class="bi bi-calendar-x"></i>
+                                            No event registrations found.
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <a asp-action="Index" class="cancel-btn">
+                    <i class="bi bi-x-circle"></i>
+                    Cancel
+                </a>
+
+                <form asp-action="Delete"
+                      asp-route-id="@Model.AttendeeId"
+                      method="post"
+                      id="deleteForm">
+
+                    <input type="hidden" asp-for="AttendeeId" />
+
+                    <button type="submit" class="delete-btn">
+                        <i class="bi bi-trash3"></i>
+                        Delete Attendee
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('deleteForm').addEventListener('submit', function (e) {
+            const confirmed = confirm(
+                'Are you sure you want to permanently delete this attendee?'
+            );
+
+            if (!confirmed) {
+                e.preventDefault();
+            }
+        });
+    </script>
+}

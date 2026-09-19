@@ -1,0 +1,835 @@
+﻿@model EventManagementSystem.ViewModels.AttendeeVM
+
+@{
+    ViewData["Title"] = "Create Attendee";
+}
+
+<style>
+    .attendee-page {
+        background: #f5f7fb;
+        min-height: 100vh;
+        padding: 30px 0 50px;
+    }
+
+    .attendee-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 25px;
+        flex-wrap: wrap;
+    }
+
+        .attendee-header h2 {
+            font-weight: 750;
+            color: #172033;
+            margin-bottom: 6px;
+        }
+
+        .attendee-header p {
+            color: #7b8497;
+            margin-bottom: 0;
+        }
+
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid #e1e6ef;
+        background: #fff;
+        color: #374151;
+        padding: 10px 17px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: .2s;
+    }
+
+        .back-btn:hover {
+            background: #f0f3f9;
+            color: #172033;
+        }
+
+    .attendee-card {
+        background: #fff;
+        border: 1px solid #e9edf4;
+        border-radius: 18px;
+        box-shadow: 0 8px 30px rgba(25, 42, 70, .045);
+        overflow: hidden;
+        margin-bottom: 24px;
+    }
+
+    .card-heading {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        padding: 22px 26px;
+        border-bottom: 1px solid #edf0f5;
+    }
+
+    .heading-icon {
+        width: 43px;
+        height: 43px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: #eef2ff;
+        color: #4f46e5;
+        font-size: 21px;
+    }
+
+    .card-heading h5 {
+        margin: 0 0 4px;
+        font-weight: 700;
+        color: #202b40;
+    }
+
+    .card-heading p {
+        margin: 0;
+        color: #8791a3;
+        font-size: 13px;
+    }
+
+    .card-content {
+        padding: 26px;
+    }
+
+    .form-label {
+        font-weight: 650;
+        color: #39445a;
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    .form-control,
+    .form-select {
+        min-height: 46px;
+        border: 1px solid #dfe5ef;
+        border-radius: 10px;
+        padding: 10px 13px;
+        color: #263247;
+        box-shadow: none !important;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, .10) !important;
+        }
+
+    .form-check-input {
+        width: 19px;
+        height: 19px;
+        margin-top: 2px;
+        cursor: pointer;
+    }
+
+        .form-check-input:checked {
+            background-color: #4f46e5;
+            border-color: #4f46e5;
+        }
+
+    .adult-box {
+        background: #f8faff;
+        border: 1px solid #e5eaf5;
+        border-radius: 12px;
+        padding: 14px 16px;
+        min-height: 46px;
+        display: flex;
+        align-items: center;
+    }
+
+        .adult-box .form-check-label {
+            font-weight: 600;
+            color: #39445a;
+            margin-left: 7px;
+            cursor: pointer;
+        }
+
+    .image-upload-box {
+        border: 1px dashed #cbd5e1;
+        border-radius: 14px;
+        padding: 18px;
+        background: #fafbff;
+        text-align: center;
+    }
+
+    .image-preview {
+        width: 125px;
+        height: 125px;
+        border-radius: 14px;
+        object-fit: cover;
+        border: 3px solid #fff;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, .10);
+        margin-bottom: 15px;
+        display: none;
+    }
+
+    .image-placeholder {
+        width: 125px;
+        height: 125px;
+        border-radius: 14px;
+        margin: 0 auto 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #eef2ff;
+        color: #6366f1;
+        font-size: 42px;
+    }
+
+    .section-note {
+        font-size: 13px;
+        color: #8992a3;
+        margin-top: 6px;
+    }
+
+    .registration-table {
+        margin-bottom: 0;
+        vertical-align: middle;
+    }
+
+        .registration-table thead th {
+            background: #f7f8fc;
+            color: #697386;
+            font-size: 12px;
+            font-weight: 750;
+            text-transform: uppercase;
+            letter-spacing: .35px;
+            padding: 15px 12px;
+            border-bottom: 1px solid #e8ecf3;
+            white-space: nowrap;
+        }
+
+        .registration-table tbody td {
+            padding: 13px 10px;
+            border-color: #edf0f5;
+        }
+
+        .registration-table .form-control,
+        .registration-table .form-select {
+            min-width: 100px;
+            min-height: 42px;
+            font-size: 14px;
+        }
+
+        .registration-table .event-select {
+            min-width: 190px;
+        }
+
+    .price-field {
+        background: #f8fafc !important;
+        font-weight: 600;
+    }
+
+    .remove-row-btn {
+        width: 38px;
+        height: 38px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #fecaca;
+        background: #fff5f5;
+        color: #dc2626;
+        border-radius: 9px;
+        transition: .2s;
+    }
+
+        .remove-row-btn:hover {
+            background: #dc2626;
+            color: #fff;
+        }
+
+    .add-event-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        background: #eef2ff;
+        color: #4f46e5;
+        border: 1px solid #dfe4ff;
+        border-radius: 10px;
+        font-weight: 650;
+        transition: .2s;
+    }
+
+        .add-event-btn:hover {
+            background: #4f46e5;
+            color: #fff;
+        }
+
+    .payment-summary {
+        background: linear-gradient(135deg, #f5f7ff, #f9faff);
+        border: 1px solid #e3e8ff;
+        border-radius: 14px;
+        padding: 20px;
+        height: 100%;
+    }
+
+    .summary-label {
+        color: #78839a;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .summary-value {
+        color: #263247;
+        font-size: 25px;
+        font-weight: 800;
+        margin-top: 6px;
+    }
+
+    .summary-subtext {
+        color: #8992a3;
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        padding: 22px 26px;
+        background: #fbfcfe;
+        border-top: 1px solid #edf0f5;
+    }
+
+    .cancel-btn,
+    .save-btn {
+        min-height: 45px;
+        padding: 11px 22px;
+        border-radius: 10px;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border: none;
+    }
+
+    .cancel-btn {
+        color: #596579;
+        background: #eef1f6;
+    }
+
+        .cancel-btn:hover {
+            background: #e2e7ef;
+            color: #263247;
+        }
+
+    .save-btn {
+        color: #fff;
+        background: #4f46e5;
+        box-shadow: 0 5px 12px rgba(79, 70, 229, .18);
+    }
+
+        .save-btn:hover {
+            background: #4338ca;
+            color: #fff;
+        }
+
+    .validation-summary:empty {
+        display: none;
+    }
+
+    @@media (max-width: 767px) {
+        .attendee-page {
+            padding: 20px 0 35px;
+        }
+
+        .card-content {
+            padding: 18px;
+        }
+
+        .card-heading {
+            padding: 18px;
+        }
+
+        .form-actions {
+            padding: 18px;
+            flex-direction: column-reverse;
+        }
+
+            .form-actions > * {
+                width: 100%;
+            }
+
+        .registration-table {
+            min-width: 850px;
+        }
+    }
+</style>
+
+<div class="attendee-page">
+    <div class="container-fluid px-3 px-lg-4">
+
+        <div class="attendee-header">
+            <div>
+                <h2>Create Attendee</h2>
+                <p>Add a new attendee and register them for events.</p>
+            </div>
+
+            <a asp-action="Index" class="back-btn">
+                <i class="bi bi-arrow-left"></i>
+                Back to Attendees
+            </a>
+        </div>
+
+        <form asp-action="Create"
+              method="post"
+              enctype="multipart/form-data"
+              id="attendeeForm">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="alert alert-danger validation-summary"></div>
+
+            <div class="attendee-card">
+                <div class="card-heading">
+                    <div class="heading-icon">
+                        <i class="bi bi-person-vcard"></i>
+                    </div>
+                    <div>
+                        <h5>Personal Information</h5>
+                        <p>Enter the attendee's basic information.</p>
+                    </div>
+                </div>
+
+                <div class="card-content">
+                    <div class="row g-4">
+
+                        <div class="col-lg-8">
+                            <div class="row g-3">
+
+                                <div class="col-md-6">
+                                    <label asp-for="FullName" class="form-label">
+                                        Full Name <span class="text-danger">*</span>
+                                    </label>
+                                    <input asp-for="FullName"
+                                           class="form-control"
+                                           placeholder="Enter full name" />
+                                    <span asp-validation-for="FullName"
+                                          class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label asp-for="Email" class="form-label">
+                                        Email Address <span class="text-danger">*</span>
+                                    </label>
+                                    <input asp-for="Email"
+                                           class="form-control"
+                                           placeholder="example@email.com" />
+                                    <span asp-validation-for="Email"
+                                          class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label asp-for="PhoneNumber" class="form-label">
+                                        Phone Number
+                                    </label>
+                                    <input asp-for="PhoneNumber"
+                                           class="form-control"
+                                           placeholder="Enter phone number" />
+                                    <span asp-validation-for="PhoneNumber"
+                                          class="text-danger small"></span>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label">Attendee Category</label>
+                                    <div class="adult-box">
+                                        <div class="form-check mb-0">
+                                            <input asp-for="IsAdult"
+                                                   class="form-check-input"
+                                                   id="IsAdult" />
+                                            <label asp-for="IsAdult"
+                                                   class="form-check-label">
+                                                Adult attendee
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="section-note">
+                                        Select if the attendee is an adult.
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <label asp-for="ImageFile" class="form-label">
+                                Attendee Photo
+                            </label>
+
+                            <div class="image-upload-box">
+                                <div class="image-placeholder" id="imagePlaceholder">
+                                    <i class="bi bi-person-bounding-box"></i>
+                                </div>
+
+                                <img id="imagePreview"
+                                     class="image-preview"
+                                     alt="Attendee image preview" />
+
+                                <input asp-for="ImageFile"
+                                       type="file"
+                                       class="form-control"
+                                       accept="image/*"
+                                       onchange="previewImage(this)" />
+
+                                <div class="section-note">
+                                    Upload an attendee photo.
+                                </div>
+
+                                <span asp-validation-for="ImageFile"
+                                      class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="attendee-card">
+                <div class="card-heading">
+                    <div class="heading-icon">
+                        <i class="bi bi-calendar2-check"></i>
+                    </div>
+                    <div>
+                        <h5>Event Registration</h5>
+                        <p>Select events and enter ticket quantities.</p>
+                    </div>
+                </div>
+
+                <div class="card-content">
+
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3 mb-3">
+                        <div>
+                            <span class="fw-bold text-dark">Registration Details</span>
+                            <div class="section-note">
+                                Add one or more event registrations.
+                            </div>
+                        </div>
+
+                        <button type="button" class="add-event-btn" id="addEventBtn">
+                            <i class="bi bi-plus-circle"></i>
+                            Add Event
+                        </button>
+                    </div>
+
+                    <div class="table-responsive">
+                        <table class="table registration-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 30%;">Event</th>
+                                    <th style="width: 17%;">Ticket Count</th>
+                                    <th style="width: 17%;">Ticket Price</th>
+                                    <th style="width: 20%;">Total Paid</th>
+                                    <th class="text-center" style="width: 10%;">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="registrationBody"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="alert alert-light border mt-3 mb-0 small">
+                        <i class="bi bi-info-circle text-primary me-1"></i>
+                        Select an event to load its ticket price. Total amount is calculated automatically.
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="attendee-card">
+                <div class="card-heading">
+                    <div class="heading-icon">
+                        <i class="bi bi-wallet2"></i>
+                    </div>
+                    <div>
+                        <h5>Payment Summary</h5>
+                        <p>Review the total ticket count and payment amount.</p>
+                    </div>
+                </div>
+
+                <div class="card-content">
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <div class="payment-summary">
+                                <div class="summary-label">Total Tickets</div>
+                                <div class="summary-value" id="summaryTickets">0</div>
+                                <div class="summary-subtext">
+                                    Combined tickets across selected events
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="payment-summary">
+                                <div class="summary-label">Total Payment</div>
+                                <div class="summary-value">
+                                    ৳<span id="summaryPayment">0.00</span>
+                                </div>
+                                <div class="summary-subtext">
+                                    Total amount based on ticket quantities
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <a asp-action="Index" class="cancel-btn">
+                        <i class="bi bi-x-circle"></i>
+                        Cancel
+                    </a>
+
+                    <button type="submit" class="save-btn">
+                        <i class="bi bi-check-circle"></i>
+                        Save Attendee
+                    </button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        let allEvents = [];
+
+        $(document).ready(function () {
+            loadEvents();
+        });
+
+        function loadEvents() {
+            $.ajax({
+                url: '/Attendees/GetAllEvents',
+                type: 'GET',
+                success: function (events) {
+                    allEvents = events || [];
+
+                    if ($('#registrationBody tr').length === 0) {
+                        addRegistrationRow();
+                    }
+                },
+                error: function () {
+                    alert('Unable to load events. Please try again.');
+                    addRegistrationRow();
+                }
+            });
+        }
+
+        function addRegistrationRow() {
+            const index = $('#registrationBody tr').length;
+
+            let eventOptions = '<option value="">Select Event</option>';
+
+            allEvents.forEach(function (event) {
+                eventOptions += `
+                    <option value="${event.eventId}"
+                            data-price="${event.ticketPrice}">
+                        ${escapeHtml(event.eventName)}
+                    </option>`;
+            });
+
+            const row = `
+                <tr>
+                    <td>
+                        <select name="Registrations[${index}].EventId"
+                                class="form-select event-select"
+                                required
+                                onchange="eventChanged(this)">
+                            ${eventOptions}
+                        </select>
+                    </td>
+
+                    <td>
+                        <input name="Registrations[${index}].TicketCount"
+                               type="number"
+                               class="form-control ticket-count"
+                               min="1"
+                               value="1"
+                               required
+                               oninput="calculateRow(this)" />
+                    </td>
+
+                    <td>
+                        <input name="Registrations[${index}].TicketPrice"
+                               type="number"
+                               class="form-control price-field ticket-price"
+                               min="0"
+                               step="0.01"
+                               value="0"
+                               readonly />
+                    </td>
+
+                    <td>
+                        <input name="Registrations[${index}].TotalPaid"
+                               type="number"
+                               class="form-control price-field total-paid"
+                               min="0"
+                               step="0.01"
+                               value="0"
+                               readonly />
+                    </td>
+
+                    <td class="text-center">
+                        <button type="button"
+                                class="remove-row-btn"
+                                title="Remove event"
+                                onclick="removeRegistrationRow(this)">
+                            <i class="bi bi-trash3"></i>
+                        </button>
+                    </td>
+                </tr>`;
+
+            $('#registrationBody').append(row);
+            updateIndexes();
+            updateSummary();
+        }
+
+        function eventChanged(select) {
+            const selectedOption = $(select).find(':selected');
+            const price = parseFloat(selectedOption.data('price')) || 0;
+            const row = $(select).closest('tr');
+
+            row.find('.ticket-price').val(price.toFixed(2));
+
+            calculateRow(row.find('.ticket-count')[0]);
+        }
+
+        function calculateRow(input) {
+            const row = $(input).closest('tr');
+            let count = parseInt(row.find('.ticket-count').val()) || 0;
+            const price = parseFloat(row.find('.ticket-price').val()) || 0;
+
+            if (count < 1) {
+                count = 1;
+                row.find('.ticket-count').val(1);
+            }
+
+            row.find('.total-paid').val((count * price).toFixed(2));
+
+            updateSummary();
+        }
+
+        function removeRegistrationRow(button) {
+            if ($('#registrationBody tr').length <= 1) {
+                alert('At least one event registration is required.');
+                return;
+            }
+
+            $(button).closest('tr').remove();
+            updateIndexes();
+            updateSummary();
+        }
+
+        function updateIndexes() {
+            $('#registrationBody tr').each(function (index) {
+                $(this).find('select, input').each(function () {
+                    const name = $(this).attr('name');
+
+                    if (name) {
+                        $(this).attr(
+                            'name',
+                            name.replace(/Registrations\[\d+\]/, `Registrations[${index}]`)
+                        );
+                    }
+                });
+            });
+        }
+
+        function updateSummary() {
+            let totalTickets = 0;
+            let totalPayment = 0;
+
+            $('#registrationBody tr').each(function () {
+                const count = parseInt($(this).find('.ticket-count').val()) || 0;
+                const paid = parseFloat($(this).find('.total-paid').val()) || 0;
+
+                totalTickets += count;
+                totalPayment += paid;
+            });
+
+            $('#summaryTickets').text(totalTickets);
+            $('#summaryPayment').text(totalPayment.toFixed(2));
+        }
+
+        function previewImage(input) {
+            const preview = document.getElementById('imagePreview');
+            const placeholder = document.getElementById('imagePlaceholder');
+
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+
+                if (!file.type.startsWith('image/')) {
+                    alert('Please select a valid image file.');
+                    input.value = '';
+                    preview.style.display = 'none';
+                    placeholder.style.display = 'flex';
+                    return;
+                }
+
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'inline-block';
+                    placeholder.style.display = 'none';
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                preview.style.display = 'none';
+                placeholder.style.display = 'flex';
+            }
+        }
+
+        function escapeHtml(value) {
+            return String(value ?? '').replace(/[&<>"']/g, function (char) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#39;'
+                }[char];
+            });
+        }
+
+        $('#addEventBtn').on('click', function () {
+            addRegistrationRow();
+        });
+
+        $('#attendeeForm').on('submit', function (e) {
+            const rows = $('#registrationBody tr');
+
+            if (rows.length === 0) {
+                e.preventDefault();
+                alert('Please add at least one event registration.');
+                return;
+            }
+
+            let valid = true;
+
+            rows.each(function () {
+                const eventId = $(this).find('.event-select').val();
+                const ticketCount = parseInt($(this).find('.ticket-count').val()) || 0;
+
+                if (!eventId || ticketCount < 1) {
+                    valid = false;
+                }
+            });
+
+            if (!valid) {
+                e.preventDefault();
+                alert('Please select an event and enter a valid ticket count for each registration.');
+            }
+        });
+    </script>
+}

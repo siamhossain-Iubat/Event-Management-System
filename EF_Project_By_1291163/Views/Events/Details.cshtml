@@ -1,0 +1,472 @@
+﻿@model EventManagementSystem.Models.Event
+
+@{
+    ViewData["Title"] = "Event Details";
+}
+
+<style>
+    .details-page {
+        min-height: 80vh;
+        padding: 45px 15px 60px;
+        background: linear-gradient(135deg, #f5f7ff 0%, #fdf2f8 100%);
+    }
+
+    .details-wrapper {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+
+    .details-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 18px;
+        margin-bottom: 30px;
+    }
+
+    .details-eyebrow {
+        display: inline-block;
+        padding: 7px 14px;
+        border-radius: 30px;
+        background: #ede9fe;
+        color: #6d28d9;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 14px;
+    }
+
+    .details-header h1 {
+        font-size: clamp(30px, 4vw, 42px);
+        font-weight: 800;
+        color: #172033;
+        margin-bottom: 10px;
+        letter-spacing: -1px;
+    }
+
+    .details-header p {
+        color: #6b7280;
+        font-size: 15px;
+        margin: 0;
+    }
+
+    .back-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        padding: 12px 18px;
+        border: 1px solid #e5e7eb;
+        border-radius: 12px;
+        background: #fff;
+        color: #4b5563;
+        text-decoration: none;
+        font-weight: 700;
+        transition: .2s ease;
+    }
+
+        .back-btn:hover {
+            background: #f9fafb;
+            color: #6d28d9;
+            border-color: #c4b5fd;
+            transform: translateY(-2px);
+        }
+
+    .details-card {
+        background: #fff;
+        border: 1px solid #e9edf4;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(31, 41, 55, .09);
+    }
+
+    .details-banner {
+        position: relative;
+        padding: 38px;
+        color: #fff;
+        background: linear-gradient(135deg, #6d28d9, #9333ea 55%, #c026d3);
+        overflow: hidden;
+    }
+
+        .details-banner::before {
+            content: "";
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            border: 1px solid rgba(255, 255, 255, .18);
+            border-radius: 50%;
+            right: -80px;
+            top: -130px;
+        }
+
+        .details-banner::after {
+            content: "";
+            position: absolute;
+            width: 170px;
+            height: 170px;
+            border: 1px solid rgba(255, 255, 255, .13);
+            border-radius: 50%;
+            right: 100px;
+            bottom: -120px;
+        }
+
+    .banner-content {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        gap: 22px;
+    }
+
+    .banner-icon {
+        width: 75px;
+        height: 75px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        border-radius: 22px;
+        background: rgba(255, 255, 255, .17);
+        font-size: 36px;
+    }
+
+    .banner-label {
+        display: inline-block;
+        margin-bottom: 8px;
+        color: rgba(255, 255, 255, .8);
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .banner-content h2 {
+        margin: 0;
+        font-size: clamp(24px, 3vw, 34px);
+        font-weight: 800;
+        overflow-wrap: anywhere;
+    }
+
+    .details-content {
+        padding: 35px 38px;
+    }
+
+    .section-heading {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .section-heading-icon {
+        width: 43px;
+        height: 43px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 13px;
+        background: #eef2ff;
+        color: #6366f1;
+        font-size: 21px;
+    }
+
+    .section-heading h3 {
+        margin: 0 0 4px;
+        color: #202b40;
+        font-size: 20px;
+        font-weight: 800;
+    }
+
+    .section-heading p {
+        margin: 0;
+        color: #9ca3af;
+        font-size: 13px;
+    }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+    }
+
+    .info-item {
+        padding: 22px;
+        border: 1px solid #e9edf4;
+        border-radius: 16px;
+        background: #fbfcff;
+        transition: .2s ease;
+    }
+
+        .info-item:hover {
+            border-color: #c4b5fd;
+            background: #faf8ff;
+            transform: translateY(-2px);
+        }
+
+    .info-label {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: #7b8497;
+        font-size: 13px;
+        font-weight: 700;
+        margin-bottom: 12px;
+    }
+
+        .info-label i {
+            color: #8b5cf6;
+            font-size: 17px;
+        }
+
+    .info-value {
+        color: #202b40;
+        font-size: 19px;
+        font-weight: 800;
+        overflow-wrap: anywhere;
+    }
+
+    .price-item {
+        background: linear-gradient(135deg, #f0fdf4, #ecfdf5);
+        border-color: #bbf7d0;
+    }
+
+        .price-item .info-label i {
+            color: #16a34a;
+        }
+
+        .price-item .info-value {
+            color: #15803d;
+            font-size: 25px;
+        }
+
+    .details-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 15px;
+        padding: 24px 38px;
+        background: #fbfcfe;
+        border-top: 1px solid #edf0f5;
+    }
+
+    .footer-note {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        color: #8992a3;
+        font-size: 13px;
+    }
+
+        .footer-note i {
+            color: #8b5cf6;
+            font-size: 18px;
+        }
+
+    .footer-actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    .btn-edit {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 9px;
+        min-height: 47px;
+        padding: 11px 22px;
+        border: none;
+        border-radius: 11px;
+        background: linear-gradient(135deg, #7c3aed, #9333ea);
+        color: #fff;
+        text-decoration: none;
+        font-weight: 700;
+        transition: .2s ease;
+    }
+
+        .btn-edit:hover {
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(124, 58, 237, .25);
+        }
+
+    @@media (max-width: 768px) {
+        .details-page {
+            padding: 30px 12px 45px;
+        }
+
+        .details-banner {
+            padding: 28px 24px;
+        }
+
+        .details-content {
+            padding: 28px 24px;
+        }
+
+        .details-footer {
+            padding: 22px 24px;
+        }
+
+        .banner-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 29px;
+        }
+    }
+
+    @@media (max-width: 520px) {
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .banner-content {
+            align-items: flex-start;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .details-footer {
+            align-items: stretch;
+            flex-direction: column;
+        }
+
+        .footer-actions {
+            flex-direction: column;
+        }
+
+            .footer-actions a {
+                width: 100%;
+            }
+
+        .back-btn {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="details-page">
+    <div class="details-wrapper">
+
+        <div class="details-header">
+            <div>
+                <span class="details-eyebrow">
+                    <i class="bi bi-stars me-1"></i>
+                    EVENT MANAGEMENT
+                </span>
+
+                <h1>Event Details</h1>
+                <p>View the complete information for this event.</p>
+            </div>
+
+            <a asp-action="Index" class="back-btn">
+                <i class="bi bi-arrow-left"></i>
+                Back to Events
+            </a>
+        </div>
+
+        <div class="details-card">
+
+            <div class="details-banner">
+                <div class="banner-content">
+                    <div class="banner-icon">
+                        <i class="bi bi-calendar2-event"></i>
+                    </div>
+
+                    <div>
+                        <span class="banner-label">Event Overview</span>
+                        <h2>@Model.EventName</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="details-content">
+
+                <div class="section-heading">
+                    <div class="section-heading-icon">
+                        <i class="bi bi-info-circle"></i>
+                    </div>
+
+                    <div>
+                        <h3>Event Information</h3>
+                        <p>Review the event schedule and ticket pricing.</p>
+                    </div>
+                </div>
+
+                <div class="info-grid">
+
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="bi bi-type"></i>
+                            Event Name
+                        </div>
+
+                        <div class="info-value">
+                            @Model.EventName
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="bi bi-calendar3"></i>
+                            Event Date
+                        </div>
+
+                        <div class="info-value">
+                            @Model.EventDate.ToString("dd MMM yyyy")
+                        </div>
+
+                        <div class="form-hint">
+                            @Model.EventDate.ToString("hh:mm tt")
+                        </div>
+                    </div>
+
+                    <div class="info-item price-item">
+                        <div class="info-label">
+                            <i class="bi bi-currency-dollar"></i>
+                            Ticket Price
+                        </div>
+
+                        <div class="info-value">
+                            ৳@Model.TicketPrice.ToString("N2")
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">
+                            <i class="bi bi-ticket-perforated"></i>
+                            Ticket Status
+                        </div>
+
+                        <div class="info-value">
+                            @(Model.TicketPrice == 0 ? "Free Event" : "Paid Event")
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="details-footer">
+                <div class="footer-note">
+                    <i class="bi bi-shield-check"></i>
+                    Event information is displayed below.
+                </div>
+
+                <div class="footer-actions">
+                    <a asp-action="Edit"
+                       asp-route-id="@Model.EventId"
+                       class="btn-edit">
+                        <i class="bi bi-pencil-square"></i>
+                        Edit Event
+                    </a>
+
+                    <a asp-action="Index" class="back-btn">
+                        <i class="bi bi-list-ul"></i>
+                        Back to List
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

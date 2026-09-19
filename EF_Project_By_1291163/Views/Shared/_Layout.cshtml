@@ -1,0 +1,205 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Eventify</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/EF_Project_By_1291163.styles.css" asp-append-version="true" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+
+    <style>
+        :root {
+            --primary: #6c4cf1;
+            --primary-dark: #5435d5;
+            --bg: #f6f7fb;
+            --text: #20243a;
+            --muted: #858ba3;
+            --border: #eceef5;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+        }
+
+        .topbar {
+            background: rgba(255,255,255,.94);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(14px);
+        }
+
+        .navbar {
+            min-height: 76px;
+            padding: 12px 0;
+        }
+
+        .navbar-brand {
+            font-weight: 800;
+            font-size: 25px;
+            color: var(--text) !important;
+            letter-spacing: -1px;
+        }
+
+        .brand-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            margin-right: 9px;
+            border-radius: 14px;
+            color: white;
+            background: linear-gradient(135deg, #8065ff, #5836dc);
+            box-shadow: 0 6px 18px #6c4cf14d;
+        }
+
+        .navbar-nav {
+            gap: 8px;
+        }
+
+            .navbar-nav .nav-link {
+                color: #737990;
+                font-size: 14px;
+                font-weight: 600;
+                padding: 12px 17px !important;
+                border-radius: 12px;
+                transition: .2s ease;
+            }
+
+                .navbar-nav .nav-link:hover,
+                .navbar-nav .nav-link.active {
+                    color: var(--primary);
+                    background: #f0edff;
+                }
+
+        .nav-action {
+            background: var(--primary);
+            color: white !important;
+            border-radius: 12px;
+            padding: 12px 19px !important;
+            box-shadow: 0 6px 16px #6c4cf133;
+        }
+
+            .nav-action:hover {
+                background: var(--primary-dark) !important;
+                color: white !important;
+            }
+
+        .page-container {
+            max-width: 1450px;
+            padding: 36px 24px 60px;
+            margin: auto;
+            min-height: calc(100vh - 150px);
+        }
+
+        .footer {
+            background: white;
+            border-top: 1px solid var(--border);
+            padding: 24px 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+            .footer a {
+                color: var(--primary);
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+        @@media (max-width: 767px) {
+            .navbar-brand {
+                font-size: 21px;
+            }
+
+            .page-container {
+                padding: 24px 16px 40px;
+            }
+
+            .navbar-nav {
+                padding-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="topbar">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid px-lg-5">
+                <a class="navbar-brand d-flex align-items-center" asp-controller="Home" asp-action="Index">
+                    <span class="brand-icon">
+                        <i class="bi bi-calendar-event"></i>
+                    </span>
+                    Eventify
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="mainNavbar">
+                    <ul class="navbar-nav ms-auto align-items-lg-center">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Home" asp-action="Index">
+                                <i class="bi bi-grid me-1"></i> Dashboard
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Events" asp-action="Create">
+                                <i class="bi bi-calendar-plus me-1"></i> Create Event
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-controller="Attendees" asp-action="Index">
+                                <i class="bi bi-people me-1"></i> Attendees
+                            </a>
+                        </li>
+                        <li class="nav-item ms-lg-2">
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Events"
+                               asp-action="Index">
+                                <i class="bi bi-calendar-event me-1"></i>
+                                Events
+                            </a>
+                        </li>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="page-container">
+        @RenderBody()
+    </main>
+
+    <footer class="footer">
+        <div class="container-fluid px-lg-5 d-flex flex-wrap justify-content-between align-items-center gap-2">
+            <span>© 2026 Eventify. All rights reserved.</span>
+            <a asp-controller="Home" asp-action="Privacy">Privacy Policy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
